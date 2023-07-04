@@ -23,6 +23,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeHttpRequests()
                 .antMatchers("/api/v1/auth/**").permitAll()
+
                 .antMatchers("/api/v1/service/user/**").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers("/api/v1/service/admin/**").hasAuthority("ADMIN")
 

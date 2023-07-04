@@ -60,9 +60,4 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
-//    private String firstName;
-
-//    private String lastName;
-
 }

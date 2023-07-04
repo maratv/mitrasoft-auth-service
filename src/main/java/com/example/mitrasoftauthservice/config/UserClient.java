@@ -11,17 +11,9 @@ public class UserClient {
 
     private final WebClient webClient;
 
-
-//    public UserClient() {
-//        this.webClient = WebClient.builder()
-//                .baseUrl("http://localhost:8081/")
-//                .build();
-//            //    .create("http://localhost:8081/");
-//    }
-
     public User getUserByEmail(Object email) {
         return webClient.get()
-                .uri("/api/v1/get/{email}", email)
+                .uri("/api/v1/auth/{email}", email)
                 .retrieve()
                 .bodyToMono(User.class)
                 .block();

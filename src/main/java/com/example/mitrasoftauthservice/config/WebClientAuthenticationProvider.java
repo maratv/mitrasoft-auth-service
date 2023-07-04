@@ -15,7 +15,6 @@ import java.util.ArrayList;
 public class WebClientAuthenticationProvider implements AuthenticationProvider {
 
     private final UserClient userClient;
-    private final WebClientUserDetailsService webClientUserDetailsService;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -29,7 +28,7 @@ public class WebClientAuthenticationProvider implements AuthenticationProvider {
             return new UsernamePasswordAuthenticationToken(
                     name, password, new ArrayList<>());
         } else {
-            return null;
+            throw new RuntimeException("invalid credentials");
         }
     }
 

@@ -1,19 +1,14 @@
 package com.example.mitrasoftauthservice.service;
 
-import com.example.mitrasoftauthservice.auth.AuthenticationRequest;
-import com.example.mitrasoftauthservice.domain.User;
+import com.example.mitrasoftauthservice.dto.UserDto;
+
+import java.util.List;
 
 public interface WebClientService {
 
-    User checkUserCredentials(AuthenticationRequest request);
+    List<UserDto> getAllUsers();
 
-    User getByEmail2(String email);
-
-    User getUserByEmail(String email);
-
-    String adminAccess();
-
-    String userAccess();
+    UserDto getUserDtoByEmail(String email);
 
 
 

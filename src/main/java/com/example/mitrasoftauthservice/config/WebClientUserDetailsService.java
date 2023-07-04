@@ -18,7 +18,7 @@ public class WebClientUserDetailsService implements UserDetailsService {
 
         User user = userClient.getUserByEmail(username);
         if (user == null) {
-            throw new UsernameNotFoundException("Пользователь не найден: " + username);
+            throw new UsernameNotFoundException("User not found: " + username);
         }
         return user;
     }
