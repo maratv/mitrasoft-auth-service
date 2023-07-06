@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
@@ -31,6 +32,8 @@ public class WebClientServiceImpl implements WebClientService {
         return webClient.get()
                 .uri("/api/v1/get/{email}", email)
                 .retrieve()
+                .onStatus(HttpStatus::isError, response ->
+                        Mono.error(new IllegalStateException("wrong email: " + email)))
                 .bodyToMono(UserDto.class)
                 .block();
 
@@ -62,17 +65,24 @@ public class WebClientServiceImpl implements WebClientService {
             userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
         }
         return webClient.post()
-                .uri("/api/v1/update/{email}", userDto)
+                .uri("/api/v1/update/{email}", email)
                 .body(Mono.just(userDto), UserDto.class)
                 .retrieve()
+                .onStatus(HttpStatus::isError, response ->
+                        Mono.error(new IllegalStateException("wrong email: " + email)))
                 .bodyToMono(UserDto.class)
                 .block();
     }
 
     @Override
     public UserDto changeRole(String email, UserRole userRole) {
-        return null;
+        return webClient.post()
+                .uri("/api/v1/role/{email}", email)
+                .body(Mono.just(userRole), UserRole.class)
+                .retrieve()
+                .onStatus(HttpStatus::isError, response ->
+                        Mono.error(new IllegalStateException("wrong email: " + email)))
+                .bodyToMono(UserDto.class)
+                .block();
     }
-
-
 }
